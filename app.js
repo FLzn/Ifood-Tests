@@ -1,8 +1,12 @@
-const express = require('express');
-const app = express();
+const conexao = require('./infraestrutura/conexao')
+const customExpress = require('./config/customExpress')
 
-app.post('/lojas', (req, res) => {
-    res.send('Oi')
+conexao.connect(err => {
+    if(err){
+        console.log(err)
+    }else{
+        console.log('Conectado com sucesso!');
+        const app = customExpress()
+        app.listen(3334)
+    }
 })
-
-app.listen(3334, () => console.log('Rodando na porta 3334'))
