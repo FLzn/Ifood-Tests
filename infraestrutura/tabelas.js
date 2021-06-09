@@ -1,10 +1,12 @@
 class Tabelas {
     init(conexao) {
         this.conexao = conexao;
+
+        this.criarLojas()
     }
 
     criarLojas(){
-        const sql = 'CREATE TABLE IF NOT EXISTS Lojas (id int NOT NULL AUTO_INCREMENT, nome varchar(50) NOT NULL, info varchar(200), destaque int(1))'
+        const sql = 'CREATE TABLE IF NOT EXISTS Lojas (id serial PRIMARY KEY NOT NULL, nomeLoja varchar(50) NOT NULL, info varchar(200), destaque boolean NOT NULL, image varchar(255) NOT NULL)'
 
         this.conexao.query(sql, err => {
             if(err) {
