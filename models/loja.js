@@ -60,9 +60,23 @@ class Loja {
         })
     }
 
-    alteraLoja(id_loja, loja, res){
+    alteraLoja(idloja, loja, res){
         const lojaa = {...loja}
-        
+        const id_loja = lojaa.id_loja
+        const nome_loja = lojaa.nome_loja
+        const info_loja = lojaa.info_loja
+        const destaque_loja = lojaa.destaque_loja
+        const image_loja = lojaa.image_loja
+        const sql = `UPDATE Lojas SET id_loja = $1, nome_loja = $2, info_loja = $3, destaque_loja = $4, image_loja = $5 WHERE id_loja = ${idloja}`
+
+        conexao.query(sql, [id_loja,nome_loja,info_loja,destaque_loja,image_loja], (err,result) => {
+            if(err){
+                res.status(400).json(err)
+                console.log(err)
+            }else{
+                res.status(200).json(lojaa)
+            }
+        })
 
     }
 }

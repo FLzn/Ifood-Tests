@@ -1,5 +1,4 @@
 const Loja = require('../models/loja')
-const Produto = require('../models/produtos')
 
 module.exports = app => {
     app.get('/lojas', (req,res) => {
@@ -16,5 +15,11 @@ module.exports = app => {
     app.post('/lojas', (req,res) => {
         const loja = req.body
         Loja.adiciona(loja, res)
+    })
+
+    app.put('/lojas/:id', (req, res) => {
+        const loja = req.body
+        const id = req.params.id
+        Loja.alteraLoja(id,loja,res)
     })
 }
