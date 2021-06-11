@@ -7,9 +7,9 @@ module.exports = app => {
     })
 
     app.get('/loja/:id', (req, res) => {
-        const id = parseInt(req.params.id)
+        const id_loja = parseInt(req.params.id)
 
-        Loja.buscaPorId(id,res)
+        Loja.buscaPorId(id_loja,res)
 
     })
 

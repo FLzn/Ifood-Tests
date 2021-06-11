@@ -7,4 +7,10 @@ module.exports = app => {
         Produto.adiciona(req.body, res)
         // res.send('Rota de criação de produtos')
     })
+
+    app.get('/produtos/:idloja', (req,res) => {
+        const idloja = req.params.idloja
+
+        Produto.procuraPorId(idloja, res)
+    })
 }
