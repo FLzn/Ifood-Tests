@@ -1,4 +1,5 @@
 const conexao = require('../infraestrutura/conexao');
+const Produto = require('./produtos');
 
 class Loja {
 
@@ -6,17 +7,15 @@ class Loja {
 
         
         const lojaa = {...loja}
-        const id = lojaa.id
-        const nomeLoja = lojaa.nomeloja
-        const info = lojaa.info
-        const destaque = lojaa.destaque
-        const image = lojaa.image
+        const id_loja = lojaa.id_loja
+        const nome_loja = lojaa.nome_loja
+        const info_loja = lojaa.info_loja
+        const destaque_loja = lojaa.destaque_loja
+        const image_loja = lojaa.image_loja
+        const sql = "INSERT INTO Lojas (id_loja,nome_loja,info_loja,destaque_loja,image_loja) VALUES ($1, $2, $3, $4, $5) RETURNING *"
 
-        console.log(lojaa)
-
-        const sql = 'INSERT INTO Lojas (id,nomeLoja,info,destaque,image) VALUES ($1, $2, $3, $4, $5) RETURNING *'
-
-        conexao.query(sql, [id,nomeLoja,info,destaque,image], (erro, resultados) => {
+        // console.log(lojaa)
+        conexao.query(sql, [id_loja,nome_loja,info_loja,destaque_loja,image_loja], (erro, resultados) => {
             if(erro) {
                 res.status(400).json(erro)
                 console.log(erro)
@@ -40,7 +39,7 @@ class Loja {
     }
 
     buscaPorId(id,res) {
-        const sql = `SELECT * FROM Lojas WHERE id = ${id}`
+        const sql = `SELECT * FROM Lojas WHERE id_loja = ${id}`
 
         conexao.query(sql, (erro, resultados) => {
             if(erro){

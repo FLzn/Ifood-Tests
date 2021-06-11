@@ -1,14 +1,16 @@
 const Loja = require('../models/loja')
+const Produto = require('../models/produtos')
 
 module.exports = app => {
     app.get('/lojas', (req,res) => {
         Loja.read(res)
     })
 
-    app.get('/lojas/:id', (req, res) => {
+    app.get('/loja/:id', (req, res) => {
         const id = parseInt(req.params.id)
 
-        Loja.buscaPorId(id, res)
+        Loja.buscaPorId(id,res)
+
     })
 
     app.post('/lojas', (req,res) => {

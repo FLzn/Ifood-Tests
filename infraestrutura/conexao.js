@@ -4,7 +4,7 @@ const conexao = new Client({
     password: 'root',
     host: 'localhost',
     port: 5432,
-    database: 'lojas'
+    database: 'ifood'
 })
 
 module.exports = conexao
