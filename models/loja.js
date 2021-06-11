@@ -1,5 +1,5 @@
 const conexao = require('../infraestrutura/conexao');
-const Produto = require('./produtos');
+// const Produto = require('./produtos');
 
 class Loja {
 
@@ -45,14 +45,22 @@ class Loja {
             if(erro){
                 res.status(400).json(erro)
             } else {
-                const sql2 = `SELECT * FROM produtos WHERE fk_loja = ${id_loja}`
+                const sql2 = `SELECT * FROM produtos WHERE fk_loja = ${id_loja} ORDER BY id_prod asc`
                 conexao.query(sql2, (err, results) => {
                     if(err){
                         res.status(400).json(err)
                     }else{
+                        const produtos = {
+                            produtos: [
+                                results.rows
+                            ]
+                        }
+                        const linhasresult = resultados.rows
+                        linhasresult.push(produtos)                        
                         res.status(200).json({
-                            loja: resultados.rows,
-                            produtos: results.rows
+                            data: [{
+                                loja: linhasresult,
+                            }]
                         })
                     }
                 })
