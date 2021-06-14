@@ -17,7 +17,7 @@ module.exports = app => {
         Loja.adiciona(loja, res)
     })
 
-    app.put('/lojas/:id', (req, res) => {
+    app.put('/loja/:id', (req, res) => {
         const loja = req.body
         const id = req.params.id
         Loja.alteraLoja(id,loja,res)

@@ -17,7 +17,6 @@ class Loja {
         // const day = moment().format('L')
         // const hour = moment().format('LTS')
         const createdAt = moment().format()
-        // console.log(createdAt)
 
         const sql = "INSERT INTO Lojas (id_loja,nome_loja,info_loja,destaque_loja,image_loja, createdAt) VALUES ($1, $2, $3, $4, $5,$6) RETURNING *"
 
@@ -60,7 +59,7 @@ class Loja {
                         if(erro){
                             res.status(400).json(erro)
                         } else {
-                            const sql2 = `SELECT * FROM produtos WHERE fk_loja = ${id_loja} ORDER BY id_prod asc`
+                            const sql2 = `SELECT * FROM produtos WHERE fk_loja = ${id_loja} AND deletedAt is NULL ORDER BY id_prod asc`
                             conexao.query(sql2, (err, results) => {
                                 if(err){
                                     res.status(400).json(err)
