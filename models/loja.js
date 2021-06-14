@@ -56,7 +56,7 @@ class Loja {
                             ]
                         }
                         const linhasresult = resultados.rows
-                        linhasresult.push(produtos)                        
+                        linhasresult[0].produtos = produtos                        
                         res.status(200).json({
                             data: [{
                                 loja: linhasresult,
