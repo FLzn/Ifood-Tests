@@ -19,7 +19,7 @@ class Tabelas {
     }
 
     criarProdutos(){
-        const sql = 'CREATE TABLE IF NOT EXISTS Produtos(id_prod serial PRIMARY KEY NOT NULL, fk_loja integer NOT NULL,nome_prod varchar(50) NOT NULL, info_prod varchar(200) NOT NULL,destaque_prod boolean NOT NULL,image_prod varchar(255) NOT NULL,preco_prod numeric(5,2) NOT NULL,categoria_prod varchar(50) NOT NULL, FOREIGN KEY(fk_loja) REFERENCES lojas(id_loja))'
+        const sql = 'CREATE TABLE IF NOT EXISTS Produtos(id_prod serial PRIMARY KEY NOT NULL, fk_loja integer NOT NULL,nome_prod varchar(50) NOT NULL, info_prod varchar(200) NOT NULL,destaque_prod boolean NOT NULL,image_prod varchar(255) NOT NULL,preco_prod numeric(5,2) NOT NULL,categoria_prod varchar(50) NOT NULL, createdAt timestamp, updatedAt timestamp, deletedAt timestamp ,FOREIGN KEY(fk_loja) REFERENCES lojas(id_loja))'
 
         this.conexao.query(sql, err => {
             if(err) {

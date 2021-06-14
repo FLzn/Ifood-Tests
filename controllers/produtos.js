@@ -8,17 +8,22 @@ module.exports = app => {
         // res.send('Rota de criação de produtos')
     })
 
-    app.put('/produtos/:idloja/:idproduto', (req, res) => {
-        const idloja = req.params.idloja
-        const idproduto = req.params.idproduto
+    app.put('/produtos/:id_produto', (req, res) => {
+        const id_produto = req.params.id_produto
         const produto = req.body
-        Produto.alteraProduto(idloja,idproduto,produto,res)
+        Produto.alteraProduto(id_produto,produto,res)
     })
 
     app.get('/produtos/:idloja', (req,res) => {
         const idloja = req.params.idloja
 
         Produto.procuraPorId(idloja, res)
+    })
+
+    app.delete('/produto/:id_produto', (req,res) => {
+        const id_produto = req.params.id_produto
+
+        Produto.deletaProduto(id_produto, res)
     })
 
 }
