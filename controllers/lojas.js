@@ -22,4 +22,9 @@ module.exports = app => {
         const id = req.params.id
         Loja.alteraLoja(id,loja,res)
     })
+
+    app.delete('/loja/:id', (req, res) => {
+        const id_loja = req.params.id
+        Loja.deletaLoja(id_loja, res)
+    })
 }
