@@ -5,7 +5,6 @@ const moment = require('moment');
 class Loja {
 
     adiciona(loja, res) {
-
         
         const lojaa = {...loja}
         const nome_loja = lojaa.nome_loja
@@ -13,8 +12,9 @@ class Loja {
         const destaque_loja = lojaa.destaque_loja
         const image_loja = lojaa.image_loja
         const local = moment.locale('pt-br')
-        // const day = moment().format('L')
-        // const hour = moment().format('LTS')
+        const day = moment().format('L')
+        const hour = moment().format('LTS')
+        const criadoEm = day + '-' + hour
         const createdAt = moment().format()
 
         const sql = "INSERT INTO Lojas (nome_loja,info_loja,destaque_loja,image_loja, createdAt) VALUES ($1, $2, $3, $4, $5) RETURNING *"
@@ -25,7 +25,7 @@ class Loja {
                 console.log(erro)
             }else{
                 const id = resultados.rows[0].id_loja
-                res.status(201).json([{id,...loja}])
+                res.status(201).json([{id,nome_loja, info_loja, destaque_loja, image_loja, criadoEm}])
             }
         })
     }
@@ -65,6 +65,7 @@ class Loja {
                                     const produtos = results.rows
                                     const linhasresult = resultados.rows
                                     linhasresult[0].produtos = produtos                        
+                                    // console.log(moment(linhasresult[0].produtos[0].createdat).format("DD-MM-YYYY HH:mm:ss"))
                                     res.status(200).json([{
                                         data: [{
                                             loja: linhasresult,
@@ -124,19 +125,6 @@ class Loja {
                 res.status(200).json(resultados.rows)
             }
         })
-
-
-        // const sql = `SELECT deletedAt from Lojas WHERE id_loja = ${id_loja}`
-        // conexao.query(sql, (err, resultados) => {
-        //     if(err){
-        //         console.log(err)
-        //     }else{
-        //         console.log(resultados.rows)
-        //         if(resultados.rows === null){
-                    
-        //         }
-        //     }
-        // })
     }
 }
 
