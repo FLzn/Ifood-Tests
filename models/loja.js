@@ -89,7 +89,6 @@ class Loja {
                 res.status(400).json(err)
             }else{
                 const deleted = resultVerifica.rows[0].deletedat;
-                // console.log(deleted !== null)
                 if(deleted !== null === false){
                     const lojaa = {...loja}
                     const nome_loja = lojaa.nome_loja
