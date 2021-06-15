@@ -5,35 +5,33 @@ const moment = require('moment');
 class Loja {
 
     adiciona(loja, res) {
-
         
         const lojaa = {...loja}
-        const id_loja = lojaa.id_loja
         const nome_loja = lojaa.nome_loja
         const info_loja = lojaa.info_loja
         const destaque_loja = lojaa.destaque_loja
         const image_loja = lojaa.image_loja
         const local = moment.locale('pt-br')
-        // const day = moment().format('L')
-        // const hour = moment().format('LTS')
+        const day = moment().format('L')
+        const hour = moment().format('LTS')
+        const criadoEm = day + '-' + hour
         const createdAt = moment().format()
 
-        const sql = "INSERT INTO Lojas (id_loja,nome_loja,info_loja,destaque_loja,image_loja, createdAt) VALUES ($1, $2, $3, $4, $5,$6) RETURNING *"
+        const sql = "INSERT INTO Lojas (nome_loja,info_loja,destaque_loja,image_loja, createdAt) VALUES ($1, $2, $3, $4, $5) RETURNING *"
 
-        // console.log(lojaa)
-        conexao.query(sql, [id_loja,nome_loja,info_loja,destaque_loja,image_loja, createdAt], (erro, resultados) => {
+        conexao.query(sql, [nome_loja,info_loja,destaque_loja,image_loja, createdAt], (erro, resultados) => {
             if(erro) {
                 res.status(400).json(erro)
                 console.log(erro)
             }else{
-                const id = resultados.insertId
-                res.status(201).json({...loja, id})
+                const id = resultados.rows[0].id_loja
+                res.status(201).json([{id,nome_loja, info_loja, destaque_loja, image_loja, criadoEm}])
             }
         })
     }
 
     read(res) {
-        const sql = "SELECT * FROM Lojas WHERE deletedAt is NULL"
+        const sql = "SELECT * FROM Lojas WHERE deletedAt is NULL ORDER BY id_loja ASC"
 
         conexao.query(sql, (erro, resultados) => {
             if(erro) {
@@ -64,18 +62,15 @@ class Loja {
                                 if(err){
                                     res.status(400).json(err)
                                 }else{
-                                    const produtos = {
-                                        produtos: [
-                                            results.rows
-                                        ]
-                                    }
+                                    const produtos = results.rows
                                     const linhasresult = resultados.rows
                                     linhasresult[0].produtos = produtos                        
-                                    res.status(200).json({
+                                    // console.log(moment(linhasresult[0].produtos[0].createdat).format("DD-MM-YYYY HH:mm:ss"))
+                                    res.status(200).json([{
                                         data: [{
                                             loja: linhasresult,
                                         }]
-                                    })
+                                    }])
                                 }
                             })
                         }
@@ -87,8 +82,8 @@ class Loja {
         })
     }
 
-    alteraLoja(idloja, loja, res){
-        const sqlVerifica = `SELECT deletedAt from Lojas WHERE id_loja = ${idloja}`
+    alteraLoja(id_loja, loja, res){
+        const sqlVerifica = `SELECT deletedAt from Lojas WHERE id_loja = ${id_loja}`
         conexao.query(sqlVerifica, (err,resultVerifica) => {
             if(err){
                 res.status(400).json(err)
@@ -97,20 +92,20 @@ class Loja {
                 // console.log(deleted !== null)
                 if(deleted !== null === false){
                     const lojaa = {...loja}
-                    const id_loja = lojaa.id_loja
                     const nome_loja = lojaa.nome_loja
                     const info_loja = lojaa.info_loja
                     const destaque_loja = lojaa.destaque_loja
                     const image_loja = lojaa.image_loja
                     const updatedAt = moment().format()
-                    const sql = `UPDATE Lojas SET id_loja = $1, nome_loja = $2, info_loja = $3, destaque_loja = $4, image_loja = $5, updatedAt = $6 WHERE id_loja = ${idloja}`
+                    const sql = `UPDATE Lojas SET nome_loja = $1, info_loja = $2, destaque_loja = $3, image_loja = $4, updatedAt = $5 WHERE id_loja = ${id_loja}`
 
-                    conexao.query(sql, [id_loja,nome_loja,info_loja,destaque_loja,image_loja, updatedAt], (err,result) => {
+                    conexao.query(sql, [nome_loja,info_loja,destaque_loja,image_loja, updatedAt], (err,result) => {
                         if(err){
                             res.status(400).json(err)
                             console.log(err)
                         }else{
-                            res.status(200).json(lojaa)
+                            // const id = result.rows[0].id_loja
+                            res.status(200).json([{id_loja,...loja}])
                         }
                     })
                 }else{
@@ -130,19 +125,6 @@ class Loja {
                 res.status(200).json(resultados.rows)
             }
         })
-
-
-        // const sql = `SELECT deletedAt from Lojas WHERE id_loja = ${id_loja}`
-        // conexao.query(sql, (err, resultados) => {
-        //     if(err){
-        //         console.log(err)
-        //     }else{
-        //         console.log(resultados.rows)
-        //         if(resultados.rows === null){
-                    
-        //         }
-        //     }
-        // })
     }
 }
 

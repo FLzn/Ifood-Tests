@@ -1,4 +1,4 @@
-const Loja = require('../models/loja')
+const Loja = require('../models/loja');
 
 module.exports = app => {
     app.get('/lojas', (req,res) => {
