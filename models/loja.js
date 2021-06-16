@@ -38,7 +38,19 @@ class Loja {
                 res.status(400).json(erro)
                 console.log(erro)
             } else {
-                res.status(200).json(resultados.rows)
+                const newResult = resultados.rows
+                for(let i in newResult){
+                    newResult[i].createdat !== null ? newResult[i].createdat = moment(newResult[i].createdat).format("DD-MM-YYYY HH:mm:ss") : null;
+                    newResult[i].updatedat !== null ? newResult[i].updatedat = moment(newResult[i].updatedat).format("DD-MM-YYYY HH:mm:ss") : null;
+
+                    // if(newResult[i].updatedat !== null){
+                    //     newResult[i].updatedat = moment(newResult[i].updatedat).format("DD-MM-YYYY HH:mm:ss")
+                    // }else{
+                    //     newResult[i].updatedat = null;
+                    // }
+                    // console.log(produtos[i])
+                }
+                res.status(200).json(newResult)
             }
         })
     }
@@ -62,10 +74,18 @@ class Loja {
                                 if(err){
                                     res.status(400).json(err)
                                 }else{
-                                    const produtos = results.rows
-                                    const linhasresult = resultados.rows
-                                    linhasresult[0].produtos = produtos                        
-                                    // console.log(moment(linhasresult[0].produtos[0].createdat).format("DD-MM-YYYY HH:mm:ss"))
+                                    const produtos = results.rows;
+                                    const linhasresult = resultados.rows;
+                                    linhasresult[0].produtos = produtos
+                                    const lojas = linhasresult[0];
+                                    lojas.createdat = moment(lojas.createdat).format("DD-MM-YYYY HH:mm:ss")
+                                    lojas.updatedat !== null ? lojas.updatedat = moment(lojas.updatedat).format("DD-MM-YYYY HH:mm:ss") : null;
+                                    
+                                    for(let i in produtos){
+                                        produtos[i].createdat = moment(produtos[i].createdat).format("DD-MM-YYYY HH:mm:ss")
+                                        produtos[i].updatedat = moment(produtos[i].updatedat).format("DD-MM-YYYY HH:mm:ss")
+                                        // console.log(produtos[i])
+                                    }
                                     res.status(200).json([{
                                         data: [{
                                             loja: linhasresult,
