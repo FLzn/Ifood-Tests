@@ -84,7 +84,7 @@ class Loja {
                                     
                                     for(let i in produtos){
                                         produtos[i].createdat = moment(produtos[i].createdat).format("DD-MM-YYYY HH:mm:ss")
-                                        produtos[i].updatedat = moment(produtos[i].updatedat).format("DD-MM-YYYY HH:mm:ss")
+                                        produtos[i].updatedat !== null ? produtos[i].updatedat = moment(produtos[i].updatedat).format("DD-MM-YYYY HH:mm:ss"): null;
                                         // console.log(produtos[i])
                                     }
                                     res.status(200).json([{
