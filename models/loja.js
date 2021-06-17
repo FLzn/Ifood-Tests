@@ -11,21 +11,22 @@ class Loja {
         const info_loja = lojaa.info_loja
         const destaque_loja = lojaa.destaque_loja
         const image_loja = lojaa.image_loja
+        const nota_loja = lojaa.nota_loja
         const local = moment.locale('pt-br')
-        const day = moment().format('L')
-        const hour = moment().format('LTS')
-        const criadoEm = day + '-' + hour
         const createdAt = moment().format()
 
-        const sql = "INSERT INTO Lojas (nome_loja,info_loja,destaque_loja,image_loja, createdAt) VALUES ($1, $2, $3, $4, $5) RETURNING *"
+        const sql = "INSERT INTO Lojas (nome_loja,info_loja,destaque_loja,image_loja,nota_loja,createdAt) VALUES ($1, $2, $3, $4, $5,$6) RETURNING *"
 
-        conexao.query(sql, [nome_loja,info_loja,destaque_loja,image_loja, createdAt], (erro, resultados) => {
+        conexao.query(sql, [nome_loja,info_loja,destaque_loja,image_loja,nota_loja,createdAt], (erro, resultados) => {
             if(erro) {
                 res.status(400).json(erro)
                 console.log(erro)
             }else{
+                let criadoEm = resultados.rows[0]
+                criadoEm.createdat = moment(criadoEm.createdat).format("DD-MM-YYYY HH:mm:ss")
+                criadoEm = criadoEm.createdat
                 const id = resultados.rows[0].id_loja
-                res.status(201).json([{id,nome_loja, info_loja, destaque_loja, image_loja, criadoEm}])
+                res.status(201).json([{id,nome_loja, info_loja, destaque_loja, image_loja,nota_loja,criadoEm}])
             }
         })
     }
@@ -115,15 +116,15 @@ class Loja {
                     const info_loja = lojaa.info_loja
                     const destaque_loja = lojaa.destaque_loja
                     const image_loja = lojaa.image_loja
+                    const nota_loja = lojaa.nota_loja
                     const updatedAt = moment().format()
-                    const sql = `UPDATE Lojas SET nome_loja = $1, info_loja = $2, destaque_loja = $3, image_loja = $4, updatedAt = $5 WHERE id_loja = ${id_loja}`
+                    const sql = `UPDATE Lojas SET nome_loja = $1, info_loja = $2, destaque_loja = $3, image_loja = $4, nota_loja = $5 ,updatedAt = $6 WHERE id_loja = ${id_loja}`
 
-                    conexao.query(sql, [nome_loja,info_loja,destaque_loja,image_loja, updatedAt], (err,result) => {
+                    conexao.query(sql, [nome_loja,info_loja,destaque_loja,image_loja,nota_loja,updatedAt], (err,result) => {
                         if(err){
                             res.status(400).json(err)
                             console.log(err)
                         }else{
-                            // const id = result.rows[0].id_loja
                             res.status(200).json([{id_loja,...loja}])
                         }
                     })
