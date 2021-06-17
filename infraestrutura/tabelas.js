@@ -7,7 +7,7 @@ class Tabelas {
     }
 
     criarLojas(){
-        const sql = 'CREATE TABLE IF NOT EXISTS Lojas (id_loja serial PRIMARY KEY NOT NULL, nome_loja varchar(50) NOT NULL, info_loja varchar(200), destaque_loja boolean NOT NULL, image_loja varchar(255) NOT NULL, nota_loja decimal,createdAt timestamp, updatedAt timestamp, deletedAt timestamp)'
+        const sql = 'CREATE TABLE IF NOT EXISTS Lojas (id_loja serial PRIMARY KEY NOT NULL, nome_loja varchar(50) NOT NULL, info_loja varchar(200), destaque_loja boolean NOT NULL, image_loja varchar(255) NOT NULL, nota_loja decimal NOT NULL,createdAt timestamp, updatedAt timestamp, deletedAt timestamp)'
 
         this.conexao.query(sql, err => {
             if(err) {
